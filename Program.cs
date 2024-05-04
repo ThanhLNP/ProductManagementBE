@@ -54,6 +54,8 @@ builder.Services.AddCors();
 builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
     .AddRoles<ApplicationRole>()
     .AddEntityFrameworkStores<ProductManagementDbContext>()
+    .AddSignInManager()
+    .AddRoleManager<RoleManager<ApplicationRole>>()
     .AddDefaultTokenProviders();
 
 var app = builder.Build();
@@ -71,7 +73,8 @@ app.MapPost("/logout", async (SignInManager<ApplicationUser> signInManager) =>
 {
     await signInManager.SignOutAsync();
     return Results.Ok();
-});
+})
+.RequireAuthorization();
 
 app.UseHttpsRedirection();
 
