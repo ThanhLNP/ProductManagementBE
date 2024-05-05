@@ -11,5 +11,7 @@
         public string? Brand { get; set; }
 
         public string? Description { get; set; }
+
+        public List<ProductCategoryListResponse>? Category { get; set; }
     }
 }

@@ -1,9 +1,14 @@
-DROP FUNCTION IF EXISTS validate_attributes;
+DROP FUNCTION IF EXISTS public.validate_attributes;
 
-create function validate_attributes(p_allowed jsonb, p_to_check jsonb)
-  returns boolean
+CREATE OR REPLACE FUNCTION validate_attributes(p_allowed jsonb, p_to_check jsonb)
+returns boolean
 as
 $$
-   select p_allowed ?& (select array_agg(k) from jsonb_object_keys(p_to_check) as t(k));
+BEGIN
+   RETURN (
+     SELECT p_allowed ?& array_agg(key)
+     FROM jsonb_object_keys(p_to_check) AS t(key)
+   );
+END;
 $$
-language sql;
+language plpgsql;

@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace ProductManagementBE.Models.Categories.Response
+﻿namespace ProductManagementBE.Models.Categories.Response
 {
     public class CategoryListResponse
     {

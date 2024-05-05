@@ -118,6 +118,8 @@ namespace ProductManagementBE.Controllers
             category.DeletedBy = userLoggedEmail;
             category.DeletedOn = DateTime.UtcNow;
 
+            await _productManagementDbContext.SaveChangesAsync();
+
             return NoContent();
         }
 
@@ -132,6 +134,8 @@ namespace ProductManagementBE.Controllers
                 return NotFound();
 
             category.IsDeleted = false;
+
+            await _productManagementDbContext.SaveChangesAsync();
 
             return NoContent();
         }

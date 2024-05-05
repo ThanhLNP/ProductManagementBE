@@ -4,6 +4,6 @@
     {
         public bool IsDeleted { get; set; } = false;
 
-        public List<Guid>? CategoryIds { get; set; }
+        public List<Guid> CategoryIds { get; set; } = [];
     }
 }

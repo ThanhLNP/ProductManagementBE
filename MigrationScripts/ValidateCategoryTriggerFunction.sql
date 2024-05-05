@@ -1,7 +1,7 @@
-DROP FUNCTION IF EXISTS validate_category_trg;
+DROP FUNCTION IF EXISTS public.validate_category_trg;
 
-create function validate_category_trg()
-  returns trigger
+CREATE OR REPLACE FUNCTION validate_category_trg()
+returns trigger
 as
 $$
 declare
@@ -9,15 +9,17 @@ declare
    l_valid   boolean;
 begin
 
-   select allowed_attributes 
+   select c."AllowedAttributes"
       into l_allowed
-   from category
-   where id = new.category_id;
+   from "Category" c
+   WHERE c."Id" = NEW."CategoryId";
 
-   l_valid := validate_attributes(l_allowed, new.attributes);
-   if l_valid = false then 
-     raise 'some attributes are not allowed for that category';
+   l_valid := validate_attributes(l_allowed, NEW."Attributes");
+
+   IF NOT l_valid THEN 
+     RAISE EXCEPTION 'Some attributes are not allowed for that category';
    end if;
+
    return new;
 end;
 $$

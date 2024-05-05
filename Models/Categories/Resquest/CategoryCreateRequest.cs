@@ -8,7 +8,6 @@ namespace ProductManagementBE.Models.Categories.Resquest
         [MaxLength(255)]
         public required string Name { get; set; }
 
-        [Required]
-        public JValue AllowedAttributes { get; set; }
+        public required JValue AllowedAttributes { get; set; }
     }
 }

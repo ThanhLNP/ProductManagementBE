@@ -6,6 +6,6 @@
 
         public required string Name { get; set; }
 
-        public string AllowedAttributes { get; set; }
+        public required string AllowedAttributes { get; set; }
     }
 }
