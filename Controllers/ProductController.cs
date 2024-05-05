@@ -1,4 +1,5 @@
-﻿using ProductManagementBE.Entities;
+﻿using ProductManagementBE.Common.Constants;
+using ProductManagementBE.Entities;
 using ProductManagementBE.Models.Products.Response;
 using ProductManagementBE.Models.Products.Resquest;
 
@@ -7,6 +8,7 @@ namespace ProductManagementBE.Controllers
     [Route("/product")]
     [Consumes("application/json")]
     [Produces("application/json")]
+    [Authorize()]
     public class ProductController : ControllerBase
     {
         private readonly ProductManagementDbContext _productManagementDbContext;
@@ -16,13 +18,13 @@ namespace ProductManagementBE.Controllers
             _productManagementDbContext = productManagementDbContext;
         }
 
-        [Authorize()]
         [HttpGet()]
         public async Task<ActionResult> GetProductListAsync([FromQuery] ProductListRequest request)
         {
             var categories = await _productManagementDbContext.Products
                 .AsNoTracking()
                 .Where(_ => _.IsDeleted == request.IsDeleted)
+                .Where(_ => _.ProductCategories.Any(pc => request.CategoryIds.Any(id => id == pc.CategoryId)))
                 .Select(_ => new ProductListResponse
                 {
                     Id = _.Id,
@@ -35,7 +37,6 @@ namespace ProductManagementBE.Controllers
             return Ok(categories);
         }
 
-        [Authorize()]
         [HttpGet("{id:guid}")]
         public async Task<ActionResult> GetProductByIdAsync(Guid id)
         {
@@ -58,7 +59,7 @@ namespace ProductManagementBE.Controllers
             return Ok(product);
         }
 
-        [Authorize()]
+        [Authorize(Roles = AppRoleConstants.ADMINISTRATOR)]
         [HttpPost]
         public async Task<ActionResult> PostProductAsync([FromBody] ProductCreateRequest request)
         {
@@ -87,7 +88,7 @@ namespace ProductManagementBE.Controllers
             return Created();
         }
 
-        [Authorize()]
+        [Authorize(Roles = AppRoleConstants.ADMINISTRATOR)]
         [HttpPut("{id:guid}")]
         public async Task<ActionResult> PutProductAsync(Guid id, [FromBody] ProductEditRequest request)
         {
@@ -110,7 +111,7 @@ namespace ProductManagementBE.Controllers
             return NoContent();
         }
 
-        [Authorize()]
+        [Authorize(Roles = AppRoleConstants.ADMINISTRATOR)]
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> DeleteProductAsync(Guid id)
         {
@@ -129,7 +130,7 @@ namespace ProductManagementBE.Controllers
             return NoContent();
         }
 
-        [Authorize()]
+        [Authorize(Roles = AppRoleConstants.ADMINISTRATOR)]
         [HttpPut("{id:guid}/restore")]
         public async Task<ActionResult> RestoreProductAsync(Guid id)
         {

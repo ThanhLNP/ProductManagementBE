@@ -1,4 +1,5 @@
-﻿using ProductManagementBE.Entities;
+﻿using ProductManagementBE.Common.Constants;
+using ProductManagementBE.Entities;
 using ProductManagementBE.Models.Categories.Response;
 using ProductManagementBE.Models.Categories.Resquest;
 
@@ -7,6 +8,7 @@ namespace ProductManagementBE.Controllers
     [Route("/category")]
     [Consumes("application/json")]
     [Produces("application/json")]
+    [Authorize()]
     public class CategoryController : ControllerBase
     {
         private readonly ProductManagementDbContext _productManagementDbContext;
@@ -16,7 +18,6 @@ namespace ProductManagementBE.Controllers
             _productManagementDbContext = productManagementDbContext;
         }
 
-        [Authorize()]
         [HttpGet()]
         public async Task<ActionResult> GetCategoryListAsync([FromQuery] CategoryListRequest request)
         {
@@ -33,7 +34,6 @@ namespace ProductManagementBE.Controllers
             return Ok(categories);
         }
 
-        [Authorize()]
         [HttpGet("{id:guid}")]
         public async Task<ActionResult> GetCategoryByIdAsync(Guid id)
         {
@@ -54,7 +54,7 @@ namespace ProductManagementBE.Controllers
             return Ok(category);
         }
 
-        [Authorize()]
+        [Authorize(Roles = AppRoleConstants.ADMINISTRATOR)]
         [HttpPost]
         public async Task<ActionResult> PostCategoryAsync([FromBody] CategoryCreateRequest request)
         {
@@ -81,7 +81,7 @@ namespace ProductManagementBE.Controllers
             return Created();
         }
 
-        [Authorize()]
+        [Authorize(Roles = AppRoleConstants.ADMINISTRATOR)]
         [HttpPut("{id:guid}")]
         public async Task<ActionResult> PutCategoryAsync(Guid id, [FromBody] CategoryEditRequest request)
         {
@@ -102,7 +102,7 @@ namespace ProductManagementBE.Controllers
             return NoContent();
         }
 
-        [Authorize()]
+        [Authorize(Roles = AppRoleConstants.ADMINISTRATOR)]
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> DeleteCategoryAsync(Guid id)
         {
@@ -121,7 +121,7 @@ namespace ProductManagementBE.Controllers
             return NoContent();
         }
 
-        [Authorize()]
+        [Authorize(Roles = AppRoleConstants.ADMINISTRATOR)]
         [HttpPut("{id:guid}/restore")]
         public async Task<ActionResult> RestoreCategoryAsync(Guid id)
         {

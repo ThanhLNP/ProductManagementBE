@@ -11,8 +11,8 @@ namespace ProductManagementBE.Entities
 
         [Required]
         [Column(TypeName = "jsonb")]
-        public string AllowedAttributes { get; set; } = "[]";
+        public string AllowedAttributes { get; set; } = "{}";
 
-        public ICollection<ProductCategory>? ProductCategories { get; set; }
+        public ICollection<ProductCategory> ProductCategories { get; set; } = [];
     }
 }

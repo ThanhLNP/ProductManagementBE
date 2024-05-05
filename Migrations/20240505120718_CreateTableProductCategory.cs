@@ -17,7 +17,7 @@ namespace ProductManagementBE.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    AllowedAttributes = table.Column<string>(type: "jsonb", nullable: false, defaultValue: "[]"),
+                    AllowedAttributes = table.Column<string>(type: "jsonb", nullable: false, defaultValue: "{}"),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -60,7 +60,7 @@ namespace ProductManagementBE.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ProductId = table.Column<Guid>(type: "uuid", nullable: false),
                     CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Attributes = table.Column<string>(type: "jsonb", nullable: false, defaultValue: "[]"),
+                    Attributes = table.Column<string>(type: "jsonb", nullable: false, defaultValue: "{}"),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),

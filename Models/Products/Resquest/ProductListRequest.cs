@@ -3,5 +3,7 @@
     public class ProductListRequest
     {
         public bool IsDeleted { get; set; } = false;
+
+        public List<Guid>? CategoryIds { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProductManagementBE.Entities;
+using ProductManagementBE.Services.DataInitialize;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
@@ -28,7 +29,7 @@ builder.Services.AddSwaggerGen(options =>
 );
 
 builder.Services.AddDbContext<ProductManagementDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -55,6 +56,9 @@ builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
     .AddSignInManager()
     .AddRoleManager<RoleManager<ApplicationRole>>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddTransient<IDataInitializeService, DummyDataInitializeService>();
+builder.Services.AddTransient<IDataInitializeService, MigrationScriptsInitializeService>();
 
 var app = builder.Build();
 
@@ -87,5 +91,11 @@ app.UseCors(x => x
     .AllowCredentials());
 
 app.MapControllers();
+
+var dataInitializeServices = builder.Services.BuildServiceProvider().GetServices<IDataInitializeService>().OrderBy(_ => _.Order);
+foreach (var service in dataInitializeServices)
+{
+    service.RunAsync().Wait();
+}
 
 app.Run();

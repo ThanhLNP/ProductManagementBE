@@ -12,7 +12,7 @@ using ProductManagementBE.Entities.Contexts;
 namespace ProductManagementBE.Migrations
 {
     [DbContext(typeof(ProductManagementDbContext))]
-    [Migration("20240504110607_CreateTableProductCategory")]
+    [Migration("20240505120718_CreateTableProductCategory")]
     partial class CreateTableProductCategory
     {
         /// <inheritdoc />
@@ -237,7 +237,7 @@ namespace ProductManagementBE.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("jsonb")
-                        .HasDefaultValue("[]");
+                        .HasDefaultValue("{}");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
@@ -333,7 +333,7 @@ namespace ProductManagementBE.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("jsonb")
-                        .HasDefaultValue("[]");
+                        .HasDefaultValue("{}");
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");

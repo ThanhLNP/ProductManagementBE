@@ -16,6 +16,6 @@ namespace ProductManagementBE.Entities
 
         public string? Description { get; set; }
 
-        public ICollection<ProductCategory>? ProductCategories { get; set; }
+        public ICollection<ProductCategory> ProductCategories { get; set; } = [];
     }
 }

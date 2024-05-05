@@ -35,11 +35,11 @@ namespace ProductManagementBE.Entities.Contexts
 
             modelBuilder.Entity<Category>()
                 .Property(p => p.AllowedAttributes)
-                .HasDefaultValue("[]");
+                .HasDefaultValue("{}");
 
             modelBuilder.Entity<ProductCategory>()
                 .Property(p => p.Attributes)
-                .HasDefaultValue("[]");
+                .HasDefaultValue("{}");
 
             base.OnModelCreating(modelBuilder);
         }

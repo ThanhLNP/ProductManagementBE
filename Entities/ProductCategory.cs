@@ -8,14 +8,14 @@ namespace ProductManagementBE.Entities
     {
         public Guid ProductId { get; set; }
 
-        public required Product Product { get; set; }
+        public Product Product { get; set; } = null!;
 
         public Guid CategoryId { get; set; }
 
-        public required Category Category { get; set; }
+        public Category Category { get; set; } = null!;
 
         [Required]
         [Column(TypeName = "jsonb")]
-        public string Attributes { get; set; } = "[]";
+        public string Attributes { get; set; } = "{}";
     }
 }
