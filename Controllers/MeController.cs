@@ -1,7 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProductManagementBE.Entities.Contexts;
 using ProductManagementBE.Models.Me.Response;
 
 namespace ProductManagementBE.Controllers
@@ -20,12 +16,12 @@ namespace ProductManagementBE.Controllers
         }
 
         [HttpGet("get-me")]
-        public async Task<ActionResult<UserProfileResponse>> GetMeAsync()
+        public async Task<ActionResult> GetMeAsync()
         {
-            var email = User.Identity?.Name;
+            var userLoggedEmail = User.Identity?.Name;
 
             var user = await _productManagementDbContext.ApplicationUsers
-                .Where(_ => _.Email == email)
+                .Where(_ => _.Email == userLoggedEmail)
                 .Select(_ => new UserProfileResponse
                 {
                     Id = _.Id,
