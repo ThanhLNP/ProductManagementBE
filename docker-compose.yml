@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  productmanagement.api:
+    image: productmanagement.api
+    container_name: productmanagement.api
+    build:
+      context: .
+      dockerfile: ProductManagementBE/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    depends_on:
+      - productmanagement.database
+    networks:
+      - mynetwork
+
+  productmanagement.database:
+    image: postgres:latest
+    container_name: productmanagement.database
+    environment: 
+      - POSTGRES_DB=product-management
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/productmanagement-db:/var/lib/postgresql/data
+    ports: 
+      - 5432:5432
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
